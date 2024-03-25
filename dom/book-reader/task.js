@@ -10,12 +10,15 @@ fontSize.forEach((element, index) => {
         element.classList.add("font-size_active");
         if (index === 0) {
             bookContent.classList.add("book_fs-small");
+            bookContent.classList.remove("book_fs-big");
         };
         if (index === 1) {
             bookContent.classList.remove("book_fs-small");
+            bookContent.classList.remove("book_fs-big");
         };
         if (index === 2) {
             bookContent.classList.add("book_fs-big");
+            bookContent.classList.remove("book_fs-small");
         };
     });
     
