@@ -1,36 +1,36 @@
 const form = document.getElementById("tasks__form");
 const tasksList = document.getElementById("tasks__list");
 const input = document.getElementById("task__input");
-let array;
-let arrayTask;
+const link = document.getElementsByClassName("task__remove");
+const task = document.getElementsByClassName("task");
 
 
 form.addEventListener("submit", (e) => {
     e.preventDefault();
 
-    let divTask = document.createElement("div");
-    tasksList.appendChild(divTask);
-    divTask.classList.add("task");
+    if (input.value.trim() != 0) {
 
-    let divTaskTitle = document.createElement("div");
-    divTask.appendChild(divTaskTitle);
-    divTaskTitle.classList.add("task__title");
-    divTaskTitle.textContent = input.value;
+        let divTask = document.createElement("div");
+        tasksList.appendChild(divTask);
+        divTask.classList.add("task");
 
-    divTaskTitle.insertAdjacentHTML("afterEnd", '<a href="#" class="task__remove">&times;</a>');
+        let divTaskTitle = document.createElement("div");
+        divTask.appendChild(divTaskTitle);
+        divTaskTitle.classList.add("task__title");
+        divTaskTitle.textContent = input.value;
+
+        divTaskTitle.insertAdjacentHTML("afterEnd", '<a href="#" class="task__remove">&times;</a>');
 
 
-    const remove = document.getElementsByClassName("task__remove");
-    array = Array.from(remove);
+        form.reset();
 
-    const taskRemove = document.getElementsByClassName("task");
-    arrayTask = Array.from(taskRemove);
+    } else {
+        alert("Поле не должго быть пустым!");
+    };
 
-    form.reset();
-
-    array.forEach((element, index) => {
-        element.addEventListener("click", event => {
-            arrayTask[index].remove();
-        });
+    Array.from(link).forEach(e => {
+        e.addEventListener("click", event => {
+            e.parentNode.remove()
+        })
     });
 });
