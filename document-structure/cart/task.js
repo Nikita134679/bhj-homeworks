@@ -5,7 +5,9 @@ const productDel = Array.from(document.querySelectorAll(".product__quantity-cont
 const productInc = Array.from(document.querySelectorAll(".product__quantity-control_inc"));
 const productValue = document.getElementsByClassName("product__quantity-value");
 const productImage = Array.from(document.querySelectorAll(".product__image"));
-const product = Array.from(document.querySelectorAll(".product"));
+const product = document.getElementsByClassName("product");
+const cartProduct = document.getElementsByClassName("cart__product");
+const productCount = document.getElementsByClassName("cart__product-count");
 
 productDel.forEach((element, index) => {
     element.addEventListener('click', () => {
@@ -28,25 +30,14 @@ productInc.forEach((element, index) => {
 productAdd.forEach((element, index) => {
     element.addEventListener('click', () => {
 
-        const search = [...cartProducts.children].findIndex(child => child.dataset.id === element.parentElement.parentElement.parentElement.dataset.id);
+        const search = [...cartProducts.children].findIndex(child => child.dataset.id === element.closest(".product").dataset.id);
 
         if (search != -1) {
-            productCount.textContent = +productCount.textContent + +productValue[index].textContent;
+            productCount[index].textContent = +productCount[index].textContent + +productValue[index].textContent;
         } else {
-            let cartProduct = document.createElement("div");
-            cartProducts.appendChild(cartProduct);
-            cartProduct.classList.add("cart__product");
-            cartProduct.dataset.id = product[index].dataset.id;
-
-            let img = document.createElement("img");
-            cartProduct.appendChild(img);
-            img.classList.add("cart__product-image");
-            img.src = productImage[index].src;
-    
-            productCount = document.createElement("div");
-            cartProduct.appendChild(productCount);
-            productCount.classList.add("cart__product-count");
-            productCount.textContent = productValue[index].textContent;
+            cartProducts.insertAdjacentHTML("beforeEnd",`<div class="cart__product" data-id=${product[index].dataset.id}></div>`);
+            cartProduct[index].insertAdjacentHTML("beforeEnd",`<img class="cart__product-image" src="${productImage[index].src}">`);
+            cartProduct[index].insertAdjacentHTML("beforeEnd",`<div class="cart__product-count">${productValue[index].textContent}</div>`);
         }
     });
 });
