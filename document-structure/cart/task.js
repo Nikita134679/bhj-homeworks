@@ -6,7 +6,6 @@ const productInc = Array.from(document.querySelectorAll(".product__quantity-cont
 const productValue = document.getElementsByClassName("product__quantity-value");
 const productImage = Array.from(document.querySelectorAll(".product__image"));
 const product = document.getElementsByClassName("product");
-const cartProduct = document.getElementsByClassName("cart__product");
 const productCount = document.getElementsByClassName("cart__product-count");
 
 productDel.forEach((element, index) => {
@@ -19,6 +18,7 @@ productDel.forEach((element, index) => {
         };
       });
 });
+
 
 productInc.forEach((element, index) => {
     element.addEventListener('click', () => {
@@ -33,11 +33,14 @@ productAdd.forEach((element, index) => {
         const search = [...cartProducts.children].findIndex(child => child.dataset.id === element.closest(".product").dataset.id);
 
         if (search != -1) {
-            productCount[index].textContent = +productCount[index].textContent + +productValue[index].textContent;
+            productCount[search].textContent = +productCount[search].textContent + +productValue[index].textContent;
         } else {
-            cartProducts.insertAdjacentHTML("beforeEnd",`<div class="cart__product" data-id=${product[index].dataset.id}></div>`);
-            cartProduct[index].insertAdjacentHTML("beforeEnd",`<img class="cart__product-image" src="${productImage[index].src}">`);
-            cartProduct[index].insertAdjacentHTML("beforeEnd",`<div class="cart__product-count">${productValue[index].textContent}</div>`);
+            const cartProduct = document.createElement("div");
+            cartProducts.appendChild(cartProduct);
+            cartProduct.classList.add("cart__product");
+            cartProduct.dataset.id = product[index].dataset.id;
+            cartProduct.insertAdjacentHTML("beforeEnd",`<img class="cart__product-image" src="${productImage[index].src}">`);
+            cartProduct.insertAdjacentHTML("beforeEnd",`<div class="cart__product-count">${productValue[index].textContent}</div>`);
         }
     });
 });
