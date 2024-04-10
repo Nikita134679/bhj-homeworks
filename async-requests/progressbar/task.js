@@ -9,11 +9,15 @@ form.addEventListener("submit", (e)=> {
     formData.append("file","file.value");
 
     let xhr = new XMLHttpRequest();
+
+    xhr.upload.onprogress = function(event) {
+        let total = event.total;
+        let loaded = event.loaded;
+        let del = String(loaded / total);
+        progress.value = del;
+    };
+
     xhr.open("POST", "https://students.netoservices.ru/nestjs-backend/upload");
     xhr.send(formData)
 
-    xhr.addEventListener("load", () => {
-        obj = JSON.parse(xhr.response);
-        progress.value = "1";
-    })
 });
